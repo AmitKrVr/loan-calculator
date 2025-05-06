@@ -7,7 +7,7 @@ const CurrencyContext = createContext();
 
 export const CurrencyProvider = ({ children }) => {
     const [currency, setCurrency] = useState("USD");
-    const { exchangeRates, fetchExchangeRates } = useExchangeRates();
+    const { exchangeRates, fetchExchangeRates, error } = useExchangeRates();
 
     const convertEMI = (amountInINR) => {
         if (
@@ -29,6 +29,7 @@ export const CurrencyProvider = ({ children }) => {
                 exchangeRates,
                 convertEMI,
                 fetchExchangeRates,
+                error,
             }}>
             {children}
         </CurrencyContext.Provider>

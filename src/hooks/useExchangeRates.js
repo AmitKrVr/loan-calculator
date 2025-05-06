@@ -3,8 +3,10 @@ import axios from "axios";
 
 export const useExchangeRates = () => {
     const [exchangeRates, setExchangeRates] = useState({ USD: 1 });
+    const [error, setError] = useState(null);
 
     const fetchExchangeRates = async () => {
+        setError(null);
         try {
             const res = await axios.get(
                 `https://v6.exchangerate-api.com/v6/${
@@ -13,9 +15,9 @@ export const useExchangeRates = () => {
             );
             setExchangeRates(res.data);
         } catch (error) {
-            console.error("Failed to fetch exchange rates:", error);
+            setError("Failed to fetch exchange rates. Please try again later.");
         }
     };
 
-    return { exchangeRates, fetchExchangeRates };
+    return { exchangeRates, fetchExchangeRates, error };
 };

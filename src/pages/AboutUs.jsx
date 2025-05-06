@@ -2,11 +2,11 @@ import {
     Box,
     Typography,
     Divider,
-    Link,
     List,
     ListItem,
     ListItemText,
 } from "@mui/material";
+import { Link } from "react-router";
 
 const AboutUs = () => {
     return (
@@ -22,10 +22,10 @@ const AboutUs = () => {
             </Typography>
 
             <Typography
+                variant="text"
+                to={"/about_us"}
                 component={Link}
-                href="/about_us"
-                underline="hover"
-                sx={{ display: "inline-block", mt: 2 }}>
+                sx={{ color: "text-primary", marginTop: 2 }}>
                 Are you a developer? Click here.
             </Typography>
 

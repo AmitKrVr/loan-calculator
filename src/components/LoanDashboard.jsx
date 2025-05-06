@@ -22,7 +22,7 @@ export default function LoanDashboard() {
     const [emi, setEmi] = useState(null);
     const [tableData, setTableData] = useState([]);
 
-    const { convertEMI, fetchExchangeRates } = useCurrency();
+    const { convertEMI, fetchExchangeRates, error } = useCurrency();
     const { generateTable } = useAmortization();
 
     const validate = () => {
@@ -70,17 +70,26 @@ export default function LoanDashboard() {
                 Math.pow(1 + monthlyInterest, totalMonths)) /
             (Math.pow(1 + monthlyInterest, totalMonths) - 1);
 
-        const latestRates = await fetchExchangeRates();
-        const convertedEMI = convertEMI(emiVal, latestRates);
+        try {
+            const latestRates = await fetchExchangeRates();
+            const convertedEMI = convertEMI(emiVal, latestRates);
 
-        setEmi(convertedEMI);
-        const amortizationData = generateTable(
-            convertedEMI,
-            principal,
-            monthlyInterest,
-            totalMonths
-        );
-        setTableData(amortizationData);
+            setEmi(convertedEMI);
+            const amortizationData = generateTable(
+                convertedEMI,
+                principal,
+                monthlyInterest,
+                totalMonths
+            );
+            setTableData(amortizationData);
+        } catch (err) {
+            console.error(
+                "Error fetching exchange rates or converting EMI",
+                err
+            );
+            setEmi(null);
+            setTableData([]);
+        }
     };
 
     const handleReset = () => {
@@ -135,6 +144,23 @@ export default function LoanDashboard() {
                         </Box>
                         <AmortizationTable data={tableData} />
                     </>
+                )}
+
+                {error && (
+                    <Box
+                        sx={{
+                            mt: 3,
+                            p: 2,
+                            backgroundColor: "#f8d7da",
+                            color: "#721c24",
+                            borderRadius: "4px",
+                        }}>
+                        <Typography variant="body1">
+                            Error:{" "}
+                            {error.message ||
+                                "An error occurred while fetching data"}
+                        </Typography>
+                    </Box>
                 )}
             </Paper>
         </Container>

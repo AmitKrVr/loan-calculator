@@ -48,6 +48,7 @@ const Header = ({ isDarkMode, onThemeToggle }) => {
             <Typography variant="h6" sx={{ p: 2 }}>
                 Loan Calculator
             </Typography>
+
             <Divider sx={{ borderColor: isDarkMode ? "#444" : "#ccc" }} />
             <List>
                 {navItems.map((item) => (
@@ -88,7 +89,13 @@ const Header = ({ isDarkMode, onThemeToggle }) => {
                                 display: "flex",
                                 justifyContent: "space-between",
                             }}>
-                            <Typography variant="h6">
+                            <Typography
+                                component={Link}
+                                to="/"
+                                sx={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}>
                                 Loan Calculator
                             </Typography>
 
@@ -105,7 +112,16 @@ const Header = ({ isDarkMode, onThemeToggle }) => {
                             display: "flex",
                             justifyContent: "space-between",
                         }}>
-                        <Typography variant="h6">Loan Calculator</Typography>
+                        <Typography
+                            component={Link}
+                            to="/"
+                            sx={{
+                                textDecoration: "none",
+                                color: "inherit",
+                                fontSize: 20,
+                            }}>
+                            Loan Calculator
+                        </Typography>
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                             <Stack direction="row" spacing={1}>
                                 {navItems.map((item) => {

@@ -25,7 +25,7 @@ import { useExchangeRatePagination } from "../hooks/useExchangeRatePagination";
 const PAGE_SIZE = 10;
 
 const ExchangeRateLive = () => {
-    const { exchangeRates, fetchExchangeRates } = useCurrency();
+    const { exchangeRates, fetchExchangeRates, error } = useCurrency();
 
     const { page, setPage, paginatedRates, totalPages } =
         useExchangeRatePagination(exchangeRates, PAGE_SIZE);
@@ -33,6 +33,29 @@ const ExchangeRateLive = () => {
     useEffect(() => {
         fetchExchangeRates();
     }, []);
+
+    if (error) {
+        return (
+            <Box display="flex" justifyContent="center" mt={4}>
+                <Card sx={{ p: 3, maxWidth: 400, bgcolor: "#fdecea" }}>
+                    <Typography
+                        variant="h6"
+                        color="error"
+                        textAlign="center"
+                        gutterBottom>
+                        Failed to load exchange rates
+                    </Typography>
+                    <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        textAlign="center">
+                        {error.message ||
+                            "Something went wrong while fetching data."}
+                    </Typography>
+                </Card>
+            </Box>
+        );
+    }
 
     if (
         !exchangeRates?.conversion_rates ||
