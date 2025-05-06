@@ -7,6 +7,7 @@ import EMIResult from "./EMIResult";
 import CurrencySelector from "./CurrencySelector";
 import AmortizationTable from "./AmortizationTable";
 import ResetButton from "./ResetButton";
+import { useCurrency } from "../context/useCurrency";
 
 export default function LoanDashboard() {
     const [formData, setFormData] = useState({
@@ -19,6 +20,8 @@ export default function LoanDashboard() {
     const [touched, setTouched] = useState({});
     const [emi, setEmi] = useState(null);
     const [tableData, setTableData] = useState([]);
+
+    const { convertEMI, fetchExchangeRates } = useCurrency();
 
     const validate = () => {
         const newErrors = {};
@@ -60,7 +63,7 @@ export default function LoanDashboard() {
         setTableData(amortization);
     };
 
-    const calculateEMI = (e) => {
+    const calculateEMI = async (e) => {
         e.preventDefault();
 
         const validationErrors = validate();
@@ -84,8 +87,11 @@ export default function LoanDashboard() {
                 Math.pow(1 + monthlyInterest, totalMonths)) /
             (Math.pow(1 + monthlyInterest, totalMonths) - 1);
 
-        setEmi(emiVal);
-        generateTable(emiVal, principal, monthlyInterest, totalMonths);
+        const latestRates = await fetchExchangeRates();
+        const convertedEMI = convertEMI(emiVal, latestRates);
+
+        setEmi(convertedEMI);
+        generateTable(convertedEMI, principal, monthlyInterest, totalMonths);
     };
 
     const handleReset = () => {

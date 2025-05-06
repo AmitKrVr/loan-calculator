@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import ExchangeRateLive from "./pages/ExchangeRateLive";
 import About from "./pages/About";
 import Error from "./pages/Error";
+import Layout from "./components/Layout";
 
 function App() {
     const [darkMode, setDarkMode] = useState(false);
@@ -31,28 +32,26 @@ function App() {
         <MuiThemeProvider theme={theme}>
             <CssBaseline />{" "}
             <Router>
-                <Header
-                    isDarkMode={darkMode}
-                    onThemeToggle={() => setDarkMode((prev) => !prev)}
-                />
-
-                <Box
-                    sx={{
-                        p: 2,
-                        minHeight: "100vh",
-                        bgColor: "background.default",
-                        color: "text.primary",
-                    }}>
-                    <Routes>
+                <Routes>
+                    <Route
+                        element={
+                            <Layout
+                                isDarkMode={darkMode}
+                                onThemeToggle={() =>
+                                    setDarkMode((prev) => !prev)
+                                }
+                            />
+                        }>
                         <Route path="/" element={<Home />} />
                         <Route
                             path="/exchange_rates_live"
                             element={<ExchangeRateLive />}
                         />
                         <Route path="/about" element={<About />} />
-                        <Route path="*" element={<Error />} />
-                    </Routes>
-                </Box>
+                    </Route>
+
+                    <Route path="*" element={<Error />} />
+                </Routes>
             </Router>
         </MuiThemeProvider>
     );

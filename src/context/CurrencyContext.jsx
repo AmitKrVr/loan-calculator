@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import axios from "axios";
 
 const CurrencyContext = createContext();
@@ -23,10 +23,6 @@ export const CurrencyProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        fetchExchangeRates();
-    }, []);
-
     const convertEMI = (amountInINR) => {
         if (!exchangeRates || !exchangeRates["INR"] || !exchangeRates[currency])
             return amountInINR;
@@ -37,7 +33,13 @@ export const CurrencyProvider = ({ children }) => {
 
     return (
         <CurrencyContext.Provider
-            value={{ currency, setCurrency, exchangeRates, convertEMI }}>
+            value={{
+                currency,
+                setCurrency,
+                exchangeRates,
+                convertEMI,
+                fetchExchangeRates,
+            }}>
             {children}
         </CurrencyContext.Provider>
     );

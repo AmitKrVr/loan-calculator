@@ -72,12 +72,7 @@ const Header = ({ isDarkMode, onThemeToggle }) => {
 
     return (
         <>
-            <AppBar
-                position="sticky"
-                elevation={4}
-                sx={{
-                    bgColor: "background.default",
-                }}>
+            <AppBar position="sticky" elevation={4}>
                 {isMobile ? (
                     <Toolbar sx={{ mr: "10" }}>
                         <IconButton
