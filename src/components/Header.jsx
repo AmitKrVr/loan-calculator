@@ -41,9 +41,7 @@ const Header = ({ isDarkMode, onThemeToggle }) => {
         <Box
             sx={{
                 width: 250,
-                bgColor: "background.default",
                 height: "100%",
-                color: "text.primary",
             }}
             role="presentation"
             onClick={toggleDrawer(false)}>
@@ -61,7 +59,10 @@ const Header = ({ isDarkMode, onThemeToggle }) => {
                         sx={{
                             backgroundColor:
                                 location.pathname === item.path && "#1876d2",
-                            color: "text.primary",
+                            color:
+                                location.pathname === item.path
+                                    ? "#FFF"
+                                    : "text.primary",
                         }}>
                         <ListItemText primary={item.label} />
                     </ListItem>

@@ -7,7 +7,6 @@ import {
     TableRow,
     Paper,
     Typography,
-    Box,
 } from "@mui/material";
 import { useCurrency } from "../context/useCurrency";
 
@@ -40,11 +39,11 @@ export default function AmortizationTable({ data }) {
                             <TableRow key={row.month}>
                                 <TableCell>{row.month}</TableCell>
                                 <TableCell align="right">
-                                    {convertEMI(row.interest).toFixed(2)}{" "}
+                                    {convertEMI(row.principal).toFixed(2)}{" "}
                                     {currency}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {convertEMI(row.principal).toFixed(2)}{" "}
+                                    {convertEMI(row.interest).toFixed(2)}{" "}
                                     {currency}
                                 </TableCell>
                                 <TableCell align="right">

@@ -8,6 +8,7 @@ import CurrencySelector from "./CurrencySelector";
 import AmortizationTable from "./AmortizationTable";
 import ResetButton from "./ResetButton";
 import { useCurrency } from "../context/useCurrency";
+import { useAmortization } from "../hooks/useAmortization";
 
 export default function LoanDashboard() {
     const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ export default function LoanDashboard() {
     const [tableData, setTableData] = useState([]);
 
     const { convertEMI, fetchExchangeRates } = useCurrency();
+    const { generateTable } = useAmortization();
 
     const validate = () => {
         const newErrors = {};
@@ -42,25 +44,6 @@ export default function LoanDashboard() {
         const { name } = e.target;
         setTouched((prev) => ({ ...prev, [name]: true }));
         setErrors(validate());
-    };
-
-    const generateTable = (emiVal, principal, monthlyInterest, totalMonths) => {
-        let balance = principal;
-        const amortization = [];
-
-        for (let month = 1; month <= totalMonths; month++) {
-            const interestPayment = balance * monthlyInterest;
-            const principalPayment = emiVal - interestPayment;
-            balance -= principalPayment;
-            amortization.push({
-                month,
-                interest: interestPayment,
-                principal: principalPayment,
-                balance: balance > 0 ? balance : 0,
-            });
-        }
-
-        setTableData(amortization);
     };
 
     const calculateEMI = async (e) => {
@@ -91,7 +74,13 @@ export default function LoanDashboard() {
         const convertedEMI = convertEMI(emiVal, latestRates);
 
         setEmi(convertedEMI);
-        generateTable(convertedEMI, principal, monthlyInterest, totalMonths);
+        const amortizationData = generateTable(
+            convertedEMI,
+            principal,
+            monthlyInterest,
+            totalMonths
+        );
+        setTableData(amortizationData);
     };
 
     const handleReset = () => {

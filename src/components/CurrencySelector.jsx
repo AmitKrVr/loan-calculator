@@ -28,9 +28,9 @@ export default function CurrencySelector({ emiInINR }) {
                     <MenuItem value="CAD">CAD</MenuItem>
                 </Select>
             </FormControl>
-            {exchangeRates &&
-                exchangeRates["INR"] &&
-                exchangeRates[currency] && (
+            {exchangeRates?.conversion_rates &&
+                exchangeRates?.conversion_rates["INR"] &&
+                exchangeRates?.conversion_rates[currency] && (
                     <Typography mt={1}>
                         Converted EMI: {convertEMI(emiInINR).toFixed(2)}{" "}
                         {currency}

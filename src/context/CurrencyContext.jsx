@@ -1,34 +1,24 @@
 "use client";
 
 import { createContext, useState } from "react";
-import axios from "axios";
+import { useExchangeRates } from "../hooks/useExchangeRates";
 
 const CurrencyContext = createContext();
 
 export const CurrencyProvider = ({ children }) => {
     const [currency, setCurrency] = useState("USD");
-    const [exchangeRates, setExchangeRates] = useState({ USD: 1 });
-
-    const fetchExchangeRates = async () => {
-        try {
-            const res = await axios.get(
-                `https://v6.exchangerate-api.com/v6/${
-                    import.meta.env.VITE_EXCHANGE_API_KEY
-                }/latest/USD`
-            );
-
-            setExchangeRates(res.data.conversion_rates);
-        } catch (error) {
-            console.error("Failed to fetch exchange rates:", error);
-        }
-    };
+    const { exchangeRates, fetchExchangeRates } = useExchangeRates();
 
     const convertEMI = (amountInINR) => {
-        if (!exchangeRates || !exchangeRates["INR"] || !exchangeRates[currency])
+        if (
+            !exchangeRates?.conversion_rates ||
+            !exchangeRates?.conversion_rates["INR"] ||
+            !exchangeRates?.conversion_rates[currency]
+        )
             return amountInINR;
 
-        const usdValue = amountInINR / exchangeRates["INR"];
-        return usdValue * exchangeRates[currency];
+        const usdValue = amountInINR / exchangeRates?.conversion_rates["INR"];
+        return usdValue * exchangeRates?.conversion_rates[currency];
     };
 
     return (
