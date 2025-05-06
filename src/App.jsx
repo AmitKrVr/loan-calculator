@@ -12,6 +12,8 @@ import ExchangeRateLive from "./pages/ExchangeRateLive";
 import About from "./pages/About";
 import Error from "./pages/Error";
 import Layout from "./components/Layout";
+import PageNotFound from "./pages/PageNotFound";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
     const [darkMode, setDarkMode] = useState(false);
@@ -47,10 +49,12 @@ function App() {
                             path="/exchange_rates_live"
                             element={<ExchangeRateLive />}
                         />
-                        <Route path="/about" element={<About />} />
+                        <Route path="/about" element={<AboutUs />} />
+                        <Route path="/about_us" element={<About />} />
                     </Route>
 
-                    <Route path="*" element={<Error />} />
+                    <Route path="/error_page" element={<Error />} />
+                    <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </Router>
         </MuiThemeProvider>

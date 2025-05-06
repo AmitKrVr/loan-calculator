@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router";
 
 const Error = () => {
@@ -9,7 +9,7 @@ const Error = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100vh",
+                height: "90vh",
             }}>
             <Typography>Something went wrong in the application.</Typography>
             <Button
